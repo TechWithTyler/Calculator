@@ -57,6 +57,9 @@ class ViewController: UIViewController {
 				displayLabel?.text = (displayLabel?.text)! + numValue
 			}
 		}
+		if displayLabel?.text == "." {
+			displayLabel?.text = "0."
+		}
 	}
 
 
