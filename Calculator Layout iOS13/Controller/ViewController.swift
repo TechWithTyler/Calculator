@@ -23,7 +23,8 @@ class ViewController: UIViewController {
 			}
 			return number
 		} set {
-			displayLabel?.text = String(newValue)
+			let isInt = floor(newValue) == newValue
+			displayLabel?.text = (isInt) ? String(format: "%0.0f", newValue) : String(newValue)
 		}
 	}
 
@@ -56,6 +57,9 @@ class ViewController: UIViewController {
 				}
 				displayLabel?.text = (displayLabel?.text)! + numValue
 			}
+		}
+		if displayLabel?.text == "." {
+			displayLabel?.text = "0."
 		}
 	}
 
