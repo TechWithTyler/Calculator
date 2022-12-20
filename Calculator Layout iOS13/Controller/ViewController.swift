@@ -24,7 +24,11 @@ class ViewController: UIViewController {
 			return number
 		} set {
 			let isInt = floor(newValue) == newValue
-			displayLabel?.text = (isInt) ? String(format: "%0.0f", newValue) : String(newValue)
+			var displayText = (isInt) ? String(format: "%0.0f", newValue) : String(newValue)
+			if displayText.count > 14 {
+				displayText = "Error"
+			}
+			displayLabel?.text = displayText
 		}
 	}
 
@@ -35,8 +39,14 @@ class ViewController: UIViewController {
 
 	@IBAction func calcButtonPressed(_ sender: UIButton) {
 		isFinishedTypingNumber = true
-		calculator.setNumber(displayValue)
 		if let calcMethod = sender.currentTitle {
+			if displayLabel?.text == "Error" {
+				if calcMethod == "AC" {
+					calculator.setNumber(0)
+				} else { return }
+			} else {
+				calculator.setNumber(displayValue)
+			}
 			if let result = calculator.calculate(symbol: calcMethod) {
 				displayValue = result
 			}
@@ -49,6 +59,7 @@ class ViewController: UIViewController {
 				displayLabel?.text = numValue
 				isFinishedTypingNumber = false
 			} else {
+				guard (displayLabel?.text?.count)! < 14 else { return }
 				if numValue == "." {
 					let isInt = floor(displayValue) == displayValue
 					if !isInt {
